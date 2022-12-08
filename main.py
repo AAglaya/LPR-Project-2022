@@ -1,5 +1,5 @@
-from objects import *                                                                                                   # Подключение модулей
-from constants import *
+from source_code.objects import *                                                                                       # Подключение модулей
+from source_code.constants import *
 
 
 finished = False                                                                                                        # Создание основных переменных для работы игры
@@ -92,7 +92,7 @@ while not finished:                                                             
                         finish_game = True                                                                              # Закончить игру
                         name.set_act_mode(True)                                                                         # Перейти к завершающему "слайду"
                 else:                                                                                                   # Иначе (если hp < 0)
-                    mark = font_style.render('Nikolaenko: You lost. Retake in January', True, (255, 255, 255))          # Сгенерировать соообщение о пересдаче
+                    mark = font_style.render('Nikolaenko: You lost. Retake in January', True, (255, 255, 255))          # Сгенерировать сообщение о пересдаче
                     finished = True                                                                                     # Закончить игру
                 screen.blit(mark, [140, 400])                                                                           # Вывести сообщение о результате
                 screen.blit(exit, [5, 10])                                                                              # Отрисовать кнопку выхода из игры
@@ -104,7 +104,7 @@ while not finished:                                                             
                 name.set_act_mode(False)                                                                                # Выйти из режима взаимодействия
 
         if name.get_location() == 3:                                                                                    # Если бой в локации номер 3
-            heart.draw_heart(screen)                                                                                    # Код ниже аналогиче коду, описывающему бой в локации 2
+            heart.draw_heart(screen)                                                                                    # Код ниже аналогично коду, описывающему бой в локации 2
             if npc3.get_number_of_shots_type2() <= 5:                                                                   # изменены тайминги взаимодействия
                 if not start_fire_2 or (start_fire_2 and timer - time_fire >= 4):
                     npc3.fire_type2()
@@ -149,14 +149,14 @@ while not finished:                                                             
         elif pygame.key.get_pressed()[pygame.K_d] and not name.get_act_mode():
             name.move_right(map)
 
-        elif name.get_location() == 1 and name.small_dist_to_npc(npc1) and npc1.is_alive():                             # Если герой в локации 1, близкр к npc и npc жив
+        elif name.get_location() == 1 and name.small_dist_to_npc(npc1) and npc1.is_alive():                             # Если герой в локации 1, близко к npc и npc жив
             name.set_act_mode(True)                                                                                     # Активировать режим взаимодействия
             if i.type == pygame.MOUSEBUTTONDOWN:
                 if 680 <= i.pos[0] <= 920 and 680 <= i.pos[1] <= 760 and not npc1.is_peaceful():                        # Если нажата кнопка "бой" и npc не настроен миролюбиво
-                    name.set_fight_mode(True)                                                                           # Активировать реим бой
+                    name.set_fight_mode(True)                                                                           # Активировать режим бой
                 elif 680 <= i.pos[0] <= 920 and 680 <= i.pos[1] <= 760 and npc1.is_peaceful():                          # Если нажата кнопка "бой" и npc настроен миролюбиво
                     screen.blit(peaceful, [140, 400])                                                                   # Вывести сообщение о миролюбивости
-                elif 240 <= i.pos[0] <= 480 and 680 <= i.pos[1] <= 760:                                                 # Если нажата кнопка "поговрить"
+                elif 240 <= i.pos[0] <= 480 and 680 <= i.pos[1] <= 760:                                                 # Если нажата кнопка "поговорить"
                     phrase = font_style.render(npc1.talk(), True, (255, 255, 255))                                      # Вывести случайную реплику npc
                     screen.blit(phrase, [140, 400])
                 screen.blit(exit, [5, 10])                                                                              # Вывести кнопку выхода из игры
