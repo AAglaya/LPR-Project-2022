@@ -1,24 +1,17 @@
-from objects import *
-import numpy as np
+from objects import *                                                                                                   # Подключение модулей
+from constants import *
 
-width = 1200
-height = 800
-FPS = 120
-finished = False
+
+finished = False                                                    # Создание основных переменных для работы игры
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((width, height))
 screen.fill((255, 255, 255))
 timer = 0
 
-pygame.init()
+pygame.init()                                                       # Запуск игры
 
-font_style = pygame.font.SysFont('cambria', 50)
+font_style = pygame.font.SysFont('cambria', 50)                     # Установка стилей
 font_style_small = pygame.font.SysFont('cambria', 25)
-
-phrases_1 = ['I ain\'t joking. Ever.', 'You agree? Have recognized?', 'Not a season, but Season*',
-             'That was just like that']
-phrases_2 = ['Take exam ticket']
-
 
 exit = font_style.render("Exit", True, (255, 0, 0))
 fight = font_style.render("Fight", True, (255, 0, 0))
@@ -30,43 +23,7 @@ start_game_text_2 = font_style_small.render("Oh no, my exam starts in 10 minutes
 end_game_text = font_style_small.render("You passed all exams. Congratulations!", True, (255, 255, 255))
 peaceful = font_style.render("It's not worth fighting with LM...", True, (255, 255, 255))
 
-
-locations = ['models/NK.bmp', 'models/corridor.bmp', 'models/classA.bmp', 'models/classB.bmp']
-
-border1 = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]).transpose()
-
-border2 = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]).transpose()
-
-border3 = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-                    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-                    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-                    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-                    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-                    [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
-                    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-                    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]]).transpose()
-
-map = Map(locations, 0, border1)
+map = Map(0, border)
 name = MainCharacter(700, 600, 0)
 heart = Heart('models/heart.bmp', 595, 520, 5, 5)
 npc1 = NPC('Koldunov', 'models/Koldunov.bmp', 900, 400, phrases_1)
@@ -271,27 +228,27 @@ while not finished:
     character_position = name.get_position()
     if 480 <= character_position[0] <= 720 and 160 <= character_position[1] <= 240 and name.get_location() == 0:
         name.change_location(1)
-        map.change_location(1, border2)
+        map.change_location(1, border)
         name.go_to_the_door(30, 400)
     elif character_position[0] <= 20 and 320 <= character_position[1] <= 560 and name.get_location() == 1:
         name.change_location(0)
-        map.change_location(0, border1)
+        map.change_location(0, border)
         name.go_to_the_door(600, 280)
     elif 240 <= character_position[0] <= 360 and character_position[1] <= 320 and name.get_location() == 1:
         name.change_location(2)
-        map.change_location(2, border3)
+        map.change_location(2, border)
         name.go_to_the_door(900, 700)
     elif 600 <= character_position[0] <= 730 and character_position[1] <= 320 and name.get_location() == 1:
         name.change_location(3)
-        map.change_location(3, border3)
+        map.change_location(3, border)
         name.go_to_the_door(900, 700)
     elif 840 <= character_position[0] <= 960 and 720 <= character_position[1] and name.get_location() == 2:
         name.change_location(1)
-        map.change_location(1, border2)
+        map.change_location(1, border)
         name.go_to_the_door(300, 380)
     elif 840 <= character_position[0] <= 960 and 720 <= character_position[1] and name.get_location() == 3:
         name.change_location(1)
-        map.change_location(1, border2)
+        map.change_location(1, border)
         name.go_to_the_door(665, 380)
     if name.get_location() == 1 and not name.get_act_mode() and npc1.is_alive():
         npc_position = npc1.get_position()
