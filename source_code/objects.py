@@ -69,8 +69,8 @@ class MainCharacter:
         self.pic_right = ['models/sprite_right_1.bmp', 'models/sprite_right_2.bmp', 'models/sprite_right_3.bmp']
         self.x = x
         self.y = y
-        self.dx = 8
-        self.dy = 8
+        self.dx = 6
+        self.dy = 6
         self.number = 3
         self.current_number = 0
         self.character_sprite = pygame.image.load(self.pic_down[1]).convert()
@@ -108,9 +108,9 @@ class MainCharacter:
 
         :param map: карта
         '''
-        if map.check_border(self.x, self.y + self.dy) != 0:
-            self.y += self.dy
-            self.current_number += 1
+        if map.check_border(self.x, self.y + self.dy + 35) != 0:                                                        # Здесь так же учтена высота персонажа
+            self.y += self.dy                                                                                           # Чтобы он не выходил за край карты нижнюю
+            self.current_number += 1                                                                                    # частью ног
             if self.current_number >= self.number:
                 self.current_number = 0
             self.character_sprite = pygame.image.load(self.pic_down[self.current_number]).convert()
@@ -153,10 +153,10 @@ class MainCharacter:
         self.location = location
 
     def set_position(self, x, y):
-        ''' Функция присвоения кооординат
+        ''' Функция присвоения координат
 
         :param x: координата по x
-        :param y: ооордината по y
+        :param y: координата по y
         '''
         self.x = x
         self.y = y
@@ -183,7 +183,7 @@ class MainCharacter:
         self.y = y_start
 
     def small_dist_to_npc(self, npc):
-        '''Функция, возвращающая True, усли расстояние от персонажа до npc ме //здесь был Гриша// ньше 50 пикселей
+        '''Функция, возвращающая True, если расстояние от персонажа до npc ме //здесь был Гриша// ньше 50 пикселей
 
         :param npc: npc
         '''
@@ -195,7 +195,7 @@ class MainCharacter:
     def set_act_mode(self, mode):
         '''Функция, переводящая персонажа в режим взаимодействия с npc
 
-        :param mode: True - активировать режим коомуникации, False - отключить режим коммуникации
+        :param mode: True - активировать режим коммуникации, False - отключить режим коммуникации
         '''
         self.communication_mode = mode
 
@@ -266,25 +266,25 @@ class NPC:
 
     def fire_type1(self):
         '''Функция, описывающая выстрелы типа 1 (шары (пули)) разлетаются в разные стороны в диапазоне [-pi; 0]
-            Возращает массив экземляров класса пули, выпущееные npc
+            Возвращает массив экземпляров класса пули, выпущенные npc
         '''
         global bullets
-        for i in range(-5, 6):                                        # Создаётся 10 снарядов, которые разлетаются
-            vx = 3*np.cos(np.pi / 10 * i - np.pi/2)                   # в диапазоне [-pi; 0]
+        for i in range(-5, 6):                                                                                          # Создаётся 10 снарядов, которые разлетаются
+            vx = 3*np.cos(np.pi / 10 * i - np.pi/2)                                                                     # в диапазоне [-pi; 0]
             vy = 3*np.sin(np.pi / 10 * i - np.pi/2)
             new_bullet = Bullet(5, 600, 300, vx, vy)
-            bullets.append(new_bullet)                                # Добавление созданных пуль в массив bullets
-        self.number_of_shots_type1 += 1                               # Количество сделанных залпов увеличивается на 1
+            bullets.append(new_bullet)                                                                                  # Добавление созданных пуль в массив bullets
+        self.number_of_shots_type1 += 1                                                                                 # Количество сделанных залпов увеличивается на 1
 
     def fire_type2(self):
-        '''Функция, описывающая выстрелы типа 2 (прямоугольники (кости)), которые перемщаются вдоль оси x.
-        Возращает массив экземляров класса пули, выпущееные npc
+        '''Функция, описывающая выстрелы типа 2 (прямоугольники (кости)), которые перемещаются вдоль оси x.
+        Возвращает массив экземпляров класса пули, выпущенные npc
         '''
         global bones
-        new_bone = Bone(10, 130, 1)                                   # Создаёся новая кость
-        new_bone.set_y_hole(random.randint(440, 580))                 # Рандомно ыбирается верхняя  y координата дырки
-        bones.append(new_bone)                                        # Кость добавляется в массив ьекущих костей
-        self.number_of_shots_type2 += 1                               # Количество сделанных залпов увеличивается на 1
+        new_bone = Bone(10, 130, 1)                                                                                     # Создаётся новая кость
+        new_bone.set_y_hole(random.randint(440, 580))                                                                   # Рандомно выбирается верхняя y координата дырки
+        bones.append(new_bone)                                                                                          # Кость добавляется в массив текущих костей
+        self.number_of_shots_type2 += 1                                                                                 # Количество сделанных залпов увеличивается на 1
 
     def get_number_of_shots_type1(self):
         '''Функция, возвращающая количество залпов типа 1
@@ -327,7 +327,7 @@ class Heart:
         :param x: координата по x
         :param y: координата по y
         :param dx: скорость по x
-        :param dy: корость по y
+        :param dy: скорость по y
         '''
         self.pic = pic
         self.x = x
@@ -401,8 +401,8 @@ class Bullet:
         '''Конструктор класса пули
 
         :param r: радиус пули (шара)
-        :param x: кордината по x
-        :param y: кордината по y
+        :param x: координата по x
+        :param y: координата по y
         :param vx: скорость по vx
         :param vy: скорость по vy
         '''
@@ -440,8 +440,8 @@ class Bone:
         '''Конструктор класса кости
 
         :param a: ширина кости
-        :param x: кордината по x
-        :param vx: корость кости
+        :param x: координата по x
+        :param vx: скорость кости
         '''
         self.a = a
         self.b = 240
@@ -471,7 +471,7 @@ class Bone:
         pygame.draw.rect(surface, (255, 255, 255), (self.x, 400, self.a, 240))
         pygame.draw.rect(surface, (0, 0, 0), (self.x, self.y_hole, self.a, 40))
 
-    def is_bone_dengerouse(self):
+    def is_bone_dangerous(self):
         '''Проверка, может ли сердце задеть кость. Если кость находится в зоне "боя", функция возвращает True,
         если кость вышла из зоны "боя", False иначе
         '''
@@ -485,6 +485,6 @@ class Bone:
 
         :param heart: сердце
         '''
-        if -10 <= self.x - heart.x <= 10 and not(-20 - heart.r <= self.y_hole + 20 - heart.y <= 20 + heart.r):
+        if -10 <= self.x - heart.x <= 10 and not(-20 + heart.r <= self.y_hole + 20 - heart.y <= 20 - heart.r):
             return True
         return False

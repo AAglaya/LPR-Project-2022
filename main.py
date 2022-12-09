@@ -45,14 +45,14 @@ while not finished:                                                             
         if not start_game:                                                                                              # Если игра только начинается
             screen.fill((0, 0, 0))                                                                                      # Нарисовать вступление
             start_game = True
-            screen.blit(start_game_text_1, [320, 400])
-            screen.blit(start_game_text_2, [320, 450])
+            screen.blit(start_game_text_1, [320, 350])
+            screen.blit(start_game_text_2, [320, 400])
             pygame.display.update()
             pygame.time.wait(5000)
             name.set_act_mode(False)
         if finish_game:                                                                                                 # Если игра заканчивается
             screen.fill((0, 0, 0))                                                                                      # Нарисовать завершение игры
-            screen.blit(end_game_text, [280, 400])
+            screen.blit(end_game_text, [280, 350])
             pygame.display.update()
             pygame.time.wait(3000)
             finished = True
@@ -94,6 +94,7 @@ while not finished:                                                             
                 else:                                                                                                   # Иначе (если hp < 0)
                     mark = font_style.render('Nikolaenko: You lost. Retake in January', True, (255, 255, 255))          # Сгенерировать сообщение о пересдаче
                     finished = True                                                                                     # Закончить игру
+                pygame.draw.rect(screen, (0, 0, 0), (124, 404, 940, 230))                                               # Залить разговорное окно чёрным (убрать сердце)
                 screen.blit(mark, [140, 400])                                                                           # Вывести сообщение о результате
                 screen.blit(exit, [5, 10])                                                                              # Отрисовать кнопку выхода из игры
                 pygame.display.update()                                                                                 # Обновить экран
@@ -122,6 +123,7 @@ while not finished:                                                             
                 else:
                     mark = font_style.render('Zhdanovskii: You lost. Retake in January', True, (255, 255, 255))
                     finished = True
+                pygame.draw.rect(screen, (0, 0, 0), (124, 404, 940, 230))
                 screen.blit(mark, [140, 400])
                 screen.blit(exit, [5, 10])
                 pygame.display.update()
@@ -212,11 +214,12 @@ while not finished:                                                             
 
     for bone in bones:                                                                                                  # Отрисовать все кости аналогично
         bone.draw(screen)
+        heart.draw_heart(screen)
         bone.move()
         if bone.hittest(heart):
             heart.set_hp(-1)
             bones.remove(bone)
-        if bone.is_bone_dengerouse():
+        if bone.is_bone_dangerous():
             bones.remove(bone)
 
     character_position = name.get_position()                                                                            # Перемещение между локациями
