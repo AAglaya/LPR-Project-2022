@@ -1,9 +1,10 @@
-import pygame                               # Подключение библиотек
-import numpy as np
 import random
 
-bullets = []                                # Массив атакующих шаров
-bones = []                                  # Массив атакующих прямоугольников (костей)
+import numpy as np
+import pygame  # Подключение библиотек
+
+bullets = []  # Массив атакующих шаров
+bones = []  # Массив атакующих прямоугольников (костей)
 
 
 class Map:
