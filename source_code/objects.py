@@ -3,7 +3,7 @@ import random
 import numpy as np
 import pygame  # Подключение библиотек
 
-bullets = []  # Массив атакующих шаров
+bullets = []  # Массив атакующих шаров (пулей)
 bones = []  # Массив атакующих прямоугольников (костей)
 
 

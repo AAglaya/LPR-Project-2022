@@ -13,7 +13,7 @@ font_style = pygame.font.SysFont('cambria', 50)  # Установка стиле
 font_style_small = pygame.font.SysFont('cambria', 25)
 
 exit = font_style.render("Exit", True, (255, 0, 0))
-fight = font_style.render("Fight", True, (255, 0, 0))  # Создание сообщений, которые будут выводится на экран
+fight = font_style.render("Fight", True, (255, 0, 0))  # Создание сообщений, которые будут выводиться на экран
 talk = font_style.render("Talk", True, (0, 255, 0))
 start_game_text_1 = font_style_small.render("Oh, my head so hurts. Why i am hear? What time is it?...",
                                             True, (255, 255, 255))
@@ -160,7 +160,7 @@ while not finished:  # Пока игра не закончилась
             if i.type == pygame.MOUSEBUTTONDOWN:
                 if 680 <= i.pos[0] <= 920 and 680 <= i.pos[
                     1] <= 760 and not npc1.is_peaceful():  # Если нажата кнопка "бой" и npc не настроен миролюбиво
-                    name.set_fight_mode(True)  # Активировать режим бой
+                    name.set_fight_mode(True)  # Активировать режим боя
                 elif 680 <= i.pos[0] <= 920 and 680 <= i.pos[
                     1] <= 760 and npc1.is_peaceful():  # Если нажата кнопка "бой" и npc настроен миролюбиво
                     screen.blit(peaceful, [140, 400])  # Вывести сообщение о миролюбивости
