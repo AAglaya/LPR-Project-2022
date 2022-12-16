@@ -31,7 +31,7 @@ def finish_button(i):                                                           
     return finished
 
 
-def roaming(name, character_position, map, border):                                                                     # еремещение персонажей между локациями
+def roaming(name, character_position, map, border):                                                                     # Перемещение персонажей между локациями
     if 480 <= character_position[0] <= 720 and character_position[1] <= 200 and name.get_location() == 0:
         name.change_location(2)
         map.change_location(2, border)

@@ -31,7 +31,7 @@ def interface(screen, map, width, height, heart, font_style_small, fight, talk):
     screen.blit(talk, [300, 710])
 
 
-def end_fight(screen, heart, font_style, name, npc_i, Exit):
+def end_fight(screen, heart, font_style, name, npc_i, Exit):                                                            # Закончить бой
     finished = False
     finish_game = False
     name.set_fight_mode(False)                                                                                          # Выйти из режима боя
@@ -73,41 +73,40 @@ def draw_npc_act_mode(screen, name, npc):                                       
 
 
 def talk_to_npc(screen, name, npc_i, exit_game, font_style):                                                            # Отрисовать разговор с npc
-    phrase = font_style.render(npc_i.talk(), True, (255, 255, 255))
-    screen.blit(phrase, [140, 400])
+    phrase = font_style.render(npc_i.talk(), True, (255, 255, 255))                                                     # Выбрать рандомную фразу из репертуара
+    screen.blit(phrase, [140, 400])                                                                                     # Отрисовать её
     screen.blit(exit_game, [5, 10])
     pygame.display.update()
     pygame.time.wait(2000)
-    name.set_act_mode(False)
-    if npc_i.get_name() == 'Koldunov':
+    name.set_act_mode(False)                                                                                            # Выключить режим взаимодействия
+    if npc_i.get_name() == 'Koldunov':                                                                                  # Установить координаты гг, чтобы он не взаимодействовал с npc
         name.set_position(950, 600)
     else:
         name.set_position(850, 450)
 
 
-def choose_level(screen, font_style_start, choose_lvl):
+def choose_level(screen, font_style_start, choose_lvl):                                                                 # Выбор уровня
     level = 1
-    while not choose_lvl:  # Пока игра не началась
-        screen.fill((0, 0, 0))  # Залить экран чёрны цветом
-        question = font_style_start.render("Choose level", True, (255, 0, 0))  # Сгенерировать вопрос
-        level1 = font_style_start.render("Easy", True, (255, 255, 255))  # о выборе уровня и варинты
-        level2 = font_style_start.render("Normal", True, (255, 255, 255))  # уровней сложности
+    while not choose_lvl:                                                                                               # Пока уровень не выбран
+        screen.fill((0, 0, 0))                                                                                          # Залить экран чёрны цветом
+        question = font_style_start.render("Choose level", True, (255, 0, 0))                                           # Сгенерировать вопрос
+        level1 = font_style_start.render("Easy", True, (255, 255, 255))                                                 # О выборе уровня и варианты
+        level2 = font_style_start.render("Normal", True, (255, 255, 255))                                               # Уровней сложности
         level3 = font_style_start.render("Hard", True, (255, 255, 255))
-        screen.blit(question, [360, 150])  # Вывести вопрос
-        screen.blit(level1, [500, 300])  # Вывести варианты уровней
-        screen.blit(level2, [460, 450])  # сложности
+        screen.blit(question, [360, 150])                                                                               # Вывести вопрос
+        screen.blit(level1, [500, 300])                                                                                 # Вывести варианты уровней сложности
+        screen.blit(level2, [460, 450])
         screen.blit(level3, [500, 600])
-        pygame.display.update()  # Показать изменения
-        # на экране
+        pygame.display.update()                                                                                         # Показать изменения на экране
         for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:  # Узнать координаты мышки
-                if 400 <= event.pos[0] <= 750:  # Если мышка попадает в
-                    if 275 <= event.pos[1] <= 375:  # облать названия уровня,
-                        level = 1  # установить соответсвующую
-                        choose_lvl = True  # сложность (easy - 1,
-                    elif 425 <= event.pos[1] <= 525:  # normal - 2, hard - 3)
-                        level = 2  # Так же установить,что игра
-                        choose_lvl = True  # началась (start_game=True)
+            if event.type == pygame.MOUSEBUTTONDOWN:                                                                    # Узнать координаты мышки
+                if 400 <= event.pos[0] <= 750:                                                                          # Если мышка попадает в
+                    if 275 <= event.pos[1] <= 375:                                                                      # Область названия уровня,
+                        level = 1                                                                                       # Установить соответсвующую
+                        choose_lvl = True                                                                               # Сложность (easy - 1, normal - 2, hard - 3)
+                    elif 425 <= event.pos[1] <= 525:
+                        level = 2                                                                                       # Так же установить, что игра началась (start_game=True)
+                        choose_lvl = True
                     elif 575 <= event.pos[1] <= 675:
                         level = 3
                         choose_lvl = True

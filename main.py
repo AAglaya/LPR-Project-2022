@@ -11,12 +11,12 @@ timer = 0
 
 pygame.init()                                                                                                           # Запуск игры
 
-font_style = pygame.font.SysFont('cambria', 50)
+font_style = pygame.font.SysFont('cambria', 50)                                                                         # Установка шрифтов
 font_style_start = pygame.font.SysFont('cambria', 100)
 font_style_small = pygame.font.SysFont('cambria', 25)
 
-exit_game = font_style.render("Exit", True, (255, 0, 0))
-fight = font_style.render("Fight", True, (255, 0, 0))                                                                   # Создание сообщений, которые будут выводиться на экран
+exit_game = font_style.render("Exit", True, (255, 0, 0))                                                                # Создание сообщений, которые будут выводиться на экран
+fight = font_style.render("Fight", True, (255, 0, 0))
 talk = font_style.render("Talk", True, (0, 255, 0))
 start_game_text_1 = font_style_small.render("Oh, my head so hurts. Why i am hear? What time is it?...",
                                             True, (255, 255, 255))
@@ -44,23 +44,24 @@ level = 1
 name.set_act_mode(True)                                                                                                 # Установить режим коммуникации
 
 while not finished:                                                                                                     # Пока игра не закончилась
-    if not choose_lvl:
+    if not choose_lvl:                                                                                                  # Выбор уровня
         level, choose_lvl = choose_level(screen, font_style_start, choose_lvl)
     if finish_game:                                                                                                     # Если игра заканчивается
-        finished = end_title(screen, name, end_game_text)
+        finished = end_title(screen, name, end_game_text)                                                               # Вывести сообщение о конце игры
+
     if name.get_act_mode():                                                                                             # Если активирован режим взаимодействия
         if not start_game:                                                                                              # Если игра только начинается
-            start_game = beggining_title(screen, name, start_game_text_1, start_game_text_2)
+            start_game = beggining_title(screen, name, start_game_text_1, start_game_text_2)                            # Вывести сообщение о начале игры
         interface(screen, map, width, height, heart, font_style_small, fight, talk)                                     # Отрисовать интерфейс взаимодействия
-        draw_npc_act_mode(screen, name, [npc1, npc2, npc3])
+        draw_npc_act_mode(screen, name, [npc1, npc2, npc3])                                                             # Отрисовать npc в интерфейсе взаимодействия
     else:
         screen.fill((255, 255, 255))                                                                                    # Отрисовать карту
         phase = int(timer * 1.5) % 2
         map.draw_map(screen, width, height, 'map', phase)
-        name.draw_character(screen)
+        name.draw_character(screen)                                                                                     # Отрисовать персонажа
 
     if name.get_fight_mode():                                                                                           # Если персонаж в режиме боя
-        if name.get_location() == 3:                                                                                    # Если персонаж дерётся в локации 2
+        if name.get_location() == 3:                                                                                    # Если персонаж дерётся в локации 3
             heart.draw_heart(screen)                                                                                    # Отрисовать сердце
             if npc2.get_number_of_shots_type1() <= 10:                                                                  # Если npc2 ещё не сделал 10 залпов
                 if not start_fire_1 or (
@@ -69,9 +70,9 @@ while not finished:                                                             
                     start_fire_1 = True                                                                                 # Записать в переменную, что открыт огонь
                     time_fire = timer                                                                                   # Записать время залпа
             elif npc2.get_number_of_shots_type1() > 10 and timer - time_fire >= 2:                                      # Если сделано больше 10 залпов и с момента последнего прошло больше 2 секунд
-                finished, finish_game = end_fight(screen, heart, font_style, name, npc2, exit_game)
+                finished, finish_game = end_fight(screen, heart, font_style, name, npc2, exit_game)                     # Закончить бой
 
-        if name.get_location() == 4:                                                                                    # Если бой в локации номер 3
+        if name.get_location() == 4:                                                                                    # Если бой в локации номер 4
             heart.draw_heart(screen)                                                                                    # Код ниже аналогично коду, описывающему бой в локации 2
             if npc3.get_number_of_shots_type2() <= 5:                                                                   # Изменены тайминги взаимодействия
                 if not start_fire_2 or (start_fire_2 and timer - time_fire >= 4 / level):
@@ -86,15 +87,15 @@ while not finished:                                                             
         if i.type == pygame.QUIT:
             finished = True
 
-        finished = finish_button(i)
+        finished = finish_button(i)                                                                                     # Если нажата кнопка выход, завершить игру
 
-        keys = pygame.key.get_pressed()
-        if keys and not name.get_act_mode():
+        keys = pygame.key.get_pressed()                                                                                 # Если нажаты WASD и персонаж не в режиме взаимодействия
+        if keys and not name.get_act_mode():                                                                            # Ходить по карте
             character_move(name, keys, map)
-        if keys and name.get_fight_mode():
+        if keys and name.get_fight_mode():                                                                              # Аналогичное управление сердцем
             heart_move(heart, keys)
         else:
-            communication(screen, name, [npc1, npc2, npc3], i, peaceful, exit_game, font_style)
+            communication(screen, name, [npc1, npc2, npc3], i, peaceful, exit_game, font_style)                         # Взаимодействие
 
     for bullet in bullets:                                                                                              # Отрисовать все пули (шарики)
         bullet.draw(screen)
@@ -114,9 +115,9 @@ while not finished:                                                             
             bones.remove(bone)
 
     character_position = name.get_position()
-    roaming(name, character_position, map, border)
+    roaming(name, character_position, map, border)                                                                      # Проверить смену локации
 
-    draw_npc_map(screen, name, [npc1, npc2, npc3])
+    draw_npc_map(screen, name, [npc1, npc2, npc3])                                                                      # Отрисовать npc на карте
     screen.blit(exit_game, [5, 10])                                                                                     # Нарисовать кнопку выход из игры
 
     timer += 1 / 120                                                                                                    # Обновить таймер
