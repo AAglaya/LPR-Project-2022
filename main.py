@@ -11,7 +11,8 @@ timer = 0
 
 pygame.init()                                                                                                           # Запуск игры
 
-font_style = pygame.font.SysFont('cambria', 50)                                                                         # Установка стилей текста
+font_style = pygame.font.SysFont('cambria', 50)
+font_style_start = pygame.font.SysFont('cambria', 100)
 font_style_small = pygame.font.SysFont('cambria', 25)
 
 exit_game = font_style.render("Exit", True, (255, 0, 0))
@@ -32,20 +33,24 @@ npc2 = NPC('Nikolaenko', 'models/Nikolaenko.bmp', 880, 370, phrases_2)          
 npc3 = NPC('Zhdanovskii', 'models/Zhdanovskii.bmp', 880, 370, phrases_2)                                                # Создание npc3 (Ждановский)
 
 write_message_about_peaceful = False                                                                                    # Создание флаговых переменных
+choose_lvl = False
 start_fire_1 = False
 start_fire_2 = False
 start_game = False
 finish_game = False
 time_fire = 0
+level = 1
 
 name.set_act_mode(True)                                                                                                 # Установить режим коммуникации
 
 while not finished:                                                                                                     # Пока игра не закончилась
+    if not choose_lvl:
+        level, choose_lvl = choose_level(screen, font_style_start, choose_lvl)
+    if finish_game:                                                                                                     # Если игра заканчивается
+        finished = end_title(screen, name, end_game_text)
     if name.get_act_mode():                                                                                             # Если активирован режим взаимодействия
         if not start_game:                                                                                              # Если игра только начинается
             start_game = beggining_title(screen, name, start_game_text_1, start_game_text_2)
-        if finish_game:                                                                                                 # Если игра заканчивается
-            finished = end_title(screen, name, end_game_text)
         interface(screen, map, width, height, heart, font_style_small, fight, talk)                                     # Отрисовать интерфейс взаимодействия
         draw_npc_act_mode(screen, name, [npc1, npc2, npc3])
     else:
@@ -59,7 +64,7 @@ while not finished:                                                             
             heart.draw_heart(screen)                                                                                    # Отрисовать сердце
             if npc2.get_number_of_shots_type1() <= 10:                                                                  # Если npc2 ещё не сделал 10 залпов
                 if not start_fire_1 or (
-                        start_fire_1 and timer - time_fire >= 1):                                                       # Если огонь ещё не открыт или между залпами прошла секунда
+                        start_fire_1 and timer - time_fire >= 1 / level):                                               # Если огонь ещё не открыт или между залпами прошла секунда
                     npc2.fire_type1()                                                                                   # Дать залп типа 1
                     start_fire_1 = True                                                                                 # Записать в переменную, что открыт огонь
                     time_fire = timer                                                                                   # Записать время залпа
@@ -69,7 +74,7 @@ while not finished:                                                             
         if name.get_location() == 4:                                                                                    # Если бой в локации номер 3
             heart.draw_heart(screen)                                                                                    # Код ниже аналогично коду, описывающему бой в локации 2
             if npc3.get_number_of_shots_type2() <= 5:                                                                   # Изменены тайминги взаимодействия
-                if not start_fire_2 or (start_fire_2 and timer - time_fire >= 4):
+                if not start_fire_2 or (start_fire_2 and timer - time_fire >= 4 / level):
                     npc3.fire_type2()
                     start_fire_2 = True
                     time_fire = timer
