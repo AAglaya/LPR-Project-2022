@@ -14,11 +14,11 @@ class Map:
         :param location: номер локации
         :param border: двумерный массив, описывающий границы карты
         '''
-        self.pic = ['models/location(1).bmp', 'models/location(1_1).bmp', 'models/location(2).bmp', 'models/classA.bmp', 'models/classB.bmp']
+        self.pic = ['models/NK.bmp', 'models/corridor.bmp', 'models/classA.bmp', 'models/classB.bmp']
         self.location = location
         self.border = border[location]
 
-    def draw_map(self, surface, width, height, mode, phase):
+    def draw_map(self, surface, width, height, mode):
         '''Функция рисования карты. Если игрок находится в режиме хождения по локациям, рисовать карту,
         если в режиме коммуникации с npc, рисовать интерфейс коммуникации
 
@@ -28,10 +28,7 @@ class Map:
         :param mode: режим хождения по карте/ежим коммуникации
         '''
         if mode == 'map':
-            if self.location == 0 and phase == 1:
-                map_surf = pygame.image.load(self.pic[1]).convert()
-            else:
-                map_surf = pygame.image.load(self.pic[self.location]).convert()
+            map_surf = pygame.image.load(self.pic[self.location]).convert()
             map_surf.set_colorkey((255, 255, 255))
             map_rect = map_surf.get_rect(center=(width//2, height//2))
             surface.blit(map_surf, map_rect)

@@ -28,7 +28,7 @@ peaceful = font_style.render("It's not worth fighting with LM...", True, (255, 2
 map = Map(0, border)                                                                                                    # Создание карты
 name = MainCharacter(700, 600, 0)                                                                                       # Создание главного героя
 heart = Heart('models/heart.bmp', 595, 520, 5, 5)                                                                       # Создание сердца
-npc1 = NPC('Koldunov', 'models/Koldunov.bmp', 1000, 600, phrases_1)                                                     # Создание npc1 (КЛМ)
+npc1 = NPC('Koldunov', 'models/Koldunov.bmp', 900, 400, phrases_1)                                                     # Создание npc1 (КЛМ)
 npc2 = NPC('Nikolaenko', 'models/Nikolaenko.bmp', 880, 370, phrases_2)                                                  # Создание npc2 (Николаенко)
 npc3 = NPC('Zhdanovskii', 'models/Zhdanovskii.bmp', 880, 370, phrases_2)                                                # Создание npc3 (Ждановский)
 
@@ -56,12 +56,11 @@ while not finished:                                                             
         draw_npc_act_mode(screen, name, [npc1, npc2, npc3])                                                             # Отрисовать npc в интерфейсе взаимодействия
     else:
         screen.fill((255, 255, 255))                                                                                    # Отрисовать карту
-        phase = int(timer * 1.5) % 2
-        map.draw_map(screen, width, height, 'map', phase)
+        map.draw_map(screen, width, height, 'map')
         name.draw_character(screen)                                                                                     # Отрисовать персонажа
 
     if name.get_fight_mode():                                                                                           # Если персонаж в режиме боя
-        if name.get_location() == 3:                                                                                    # Если персонаж дерётся в локации 3
+        if name.get_location() == 2:                                                                                    # Если персонаж дерётся в локации 2
             heart.draw_heart(screen)                                                                                    # Отрисовать сердце
             if npc2.get_number_of_shots_type1() <= 10:                                                                  # Если npc2 ещё не сделал 10 залпов
                 if not start_fire_1 or (
@@ -72,7 +71,7 @@ while not finished:                                                             
             elif npc2.get_number_of_shots_type1() > 10 and timer - time_fire >= 2:                                      # Если сделано больше 10 залпов и с момента последнего прошло больше 2 секунд
                 finished, finish_game = end_fight(screen, heart, font_style, name, npc2, exit_game)                     # Закончить бой
 
-        if name.get_location() == 4:                                                                                    # Если бой в локации номер 4
+        if name.get_location() == 3:                                                                                    # Если бой в локации номер 3
             heart.draw_heart(screen)                                                                                    # Код ниже аналогично коду, описывающему бой в локации 2
             if npc3.get_number_of_shots_type2() <= 5:                                                                   # Изменены тайминги взаимодействия
                 if not start_fire_2 or (start_fire_2 and timer - time_fire >= 4 / level):

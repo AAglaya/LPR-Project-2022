@@ -24,7 +24,7 @@ def end_title(screen, name, end_game_text):
 
 def interface(screen, map, width, height, heart, font_style_small, fight, talk):                                        # Рисовать интерфейс взаимодействия
     screen.fill((0, 0, 0))
-    map.draw_map(screen, width, height, 'act', 0)
+    map.draw_map(screen, width, height, 'act')
     hp = font_style_small.render("HP: " + str(heart.get_hp()) + " / 5", True, (255, 0, 0))
     screen.blit(hp, [540, 660])
     screen.blit(fight, [740, 710])
@@ -60,16 +60,16 @@ def end_fight(screen, heart, font_style, name, npc_i, Exit):                    
 
 
 def draw_npc_map(screen, name, npc):                                                                                    # Отрисовать npc а карте
-    for i in range(2, 5):
-        if name.get_location() == i and not name.get_act_mode() and npc[i-2].is_alive():
-            npc_position = npc[i-2].get_position()
-            npc[i-2].draw(screen, npc_position[0], npc_position[1])
+    for i in range(1, 4):
+        if name.get_location() == i and not name.get_act_mode() and npc[i-1].is_alive():
+            npc_position = npc[i-1].get_position()
+            npc[i-1].draw(screen, npc_position[0], npc_position[1])
 
 
 def draw_npc_act_mode(screen, name, npc):                                                                               # Отрисовать npc в режиме взаимодействия
-    for i in range(2, 5):
+    for i in range(1, 4):
         if name.get_location() == i:
-            npc[i - 2].draw(screen, 600, 300)
+            npc[i - 1].draw(screen, 600, 300)
 
 
 def talk_to_npc(screen, name, npc_i, exit_game, font_style):                                                            # Отрисовать разговор с npc
@@ -79,10 +79,7 @@ def talk_to_npc(screen, name, npc_i, exit_game, font_style):                    
     pygame.display.update()
     pygame.time.wait(2000)
     name.set_act_mode(False)                                                                                            # Выключить режим взаимодействия
-    if npc_i.get_name() == 'Koldunov':                                                                                  # Установить координаты гг, чтобы он не взаимодействовал с npc
-        name.set_position(950, 600)
-    else:
-        name.set_position(850, 450)
+    name.set_position(850, 450)
 
 
 def choose_level(screen, font_style_start, choose_lvl):                                                                 # Выбор уровня
