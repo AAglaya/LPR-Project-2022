@@ -273,7 +273,8 @@ class NPC:
         for i in range(-5, 6):                                                                                          # Создаётся 10 снарядов, которые разлетаются
             vx = 3*np.cos(np.pi / 10 * i - np.pi/2)                                                                     # в диапазоне [-pi; 0]
             vy = 3*np.sin(np.pi / 10 * i - np.pi/2)
-            new_bullet = Bullet(5, 600, 300, vx, vy)
+            r = random.randint(5, 15)
+            new_bullet = Bullet(r, 600, 300, vx, vy)
             bullets.append(new_bullet)                                                                                  # Добавление созданных пуль в массив bullets
         self.number_of_shots_type1 += 1                                                                                 # Количество сделанных залпов увеличивается на 1
 
